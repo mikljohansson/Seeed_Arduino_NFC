@@ -1,0 +1,5 @@
+{
+    "build": {
+        "srcFilter": "+<*> -<.git/> -<examples/> -<tests/> -<*/PN532_HSU/> -<*/PN532_SPI/> -<*/PN532_SWHSU/>"
+    }
+}

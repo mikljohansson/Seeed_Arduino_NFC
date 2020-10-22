@@ -91,10 +91,10 @@ NdefMessage NfcTag::getNdefMessage() {
 #ifdef NDEF_USE_SERIAL
 
 void NfcTag::print() {
-    SERIAL.print(F("NFC Tag - ")); SERIAL.println(_tagType);
-    SERIAL.print(F("UID ")); SERIAL.println(getUidString());
+    PN532_SERIAL.print(F("NFC Tag - ")); PN532_SERIAL.println(_tagType);
+    PN532_SERIAL.print(F("UID ")); PN532_SERIAL.println(getUidString());
     if (_ndefMessage == NULL) {
-        SERIAL.println(F("\nNo NDEF Message"));
+        PN532_SERIAL.println(F("\nNo NDEF Message"));
     } else {
         _ndefMessage->print();
     }

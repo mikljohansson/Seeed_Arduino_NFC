@@ -39,13 +39,13 @@ void PN532::PrintHex(const uint8_t* data, const uint32_t numBytes) {
     #ifdef ARDUINO
     for (uint8_t i = 0; i < numBytes; i++) {
         if (data[i] < 0x10) {
-            SERIAL.print(" 0");
+            PN532_SERIAL.print(" 0");
         } else {
-            SERIAL.print(' ');
+            PN532_SERIAL.print(' ');
         }
-        SERIAL.print(data[i], HEX);
+        PN532_SERIAL.print(data[i], HEX);
     }
-    SERIAL.println("");
+    PN532_SERIAL.println("");
     #else
     for (uint8_t i = 0; i < numBytes; i++) {
         printf(" %2X", data[i]);
@@ -69,22 +69,22 @@ void PN532::PrintHexChar(const uint8_t* data, const uint32_t numBytes) {
     #ifdef ARDUINO
     for (uint8_t i = 0; i < numBytes; i++) {
         if (data[i] < 0x10) {
-            SERIAL.print(" 0");
+            PN532_SERIAL.print(" 0");
         } else {
-            SERIAL.print(' ');
+            PN532_SERIAL.print(' ');
         }
-        SERIAL.print(data[i], HEX);
+        PN532_SERIAL.print(data[i], HEX);
     }
-    SERIAL.print("    ");
+    PN532_SERIAL.print("    ");
     for (uint8_t i = 0; i < numBytes; i++) {
         char c = data[i];
         if (c <= 0x1f || c > 0x7f) {
-            SERIAL.print('.');
+            PN532_SERIAL.print('.');
         } else {
-            SERIAL.print(c);
+            PN532_SERIAL.print(c);
         }
     }
-    SERIAL.println("");
+    PN532_SERIAL.println("");
     #else
     for (uint8_t i = 0; i < numBytes; i++) {
         printf(" %2X", data[i]);
@@ -178,8 +178,6 @@ uint32_t PN532::readRegister(uint16_t reg) {
 */
 /**************************************************************************/
 uint32_t PN532::writeRegister(uint16_t reg, uint8_t val) {
-    uint32_t response;
-
     pn532_packetbuffer[0] = PN532_COMMAND_WRITEREGISTER;
     pn532_packetbuffer[1] = (reg >> 8) & 0xFF;
     pn532_packetbuffer[2] = reg & 0xFF;
@@ -653,7 +651,7 @@ uint8_t PN532::mifareclassic_WriteNDEFURI(uint8_t sectorNumber, uint8_t uriIdent
     // in NDEF records
 
     // Setup the sector buffer (w/pre-formatted TLV wrapper and NDEF message)
-    uint8_t sectorbuffer1[16] = {0x00, 0x00, 0x03, len + 5, 0xD1, 0x01, len + 1, 0x55, uriIdentifier, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    uint8_t sectorbuffer1[16] = {0x00, 0x00, 0x03, (uint8_t)(len + 5), 0xD1, 0x01, (uint8_t)(len + 1), 0x55, uriIdentifier, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     uint8_t sectorbuffer2[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     uint8_t sectorbuffer3[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     uint8_t sectorbuffer4[16] = {0xD3, 0xF7, 0xD3, 0xF7, 0xD3, 0xF7, 0x7F, 0x07, 0x88, 0x40, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
@@ -782,8 +780,6 @@ uint8_t PN532::mifareultralight_WritePage(uint8_t page, uint8_t* buffer) {
 */
 /**************************************************************************/
 bool PN532::inDataExchange(uint8_t* send, uint8_t sendLength, uint8_t* response, uint8_t* responseLength) {
-    uint8_t i;
-
     pn532_packetbuffer[0] = 0x40; // PN532_COMMAND_INDATAEXCHANGE;
     pn532_packetbuffer[1] = inListedTag;
 

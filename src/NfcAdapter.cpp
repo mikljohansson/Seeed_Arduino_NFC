@@ -15,16 +15,16 @@ void NfcAdapter::begin(boolean verbose) {
 
     if (! versiondata) {
         #ifdef NDEF_USE_SERIAL
-        SERIAL.print(F("Didn't find PN53x board"));
+        PN532_SERIAL.print(F("Didn't find PN53x board"));
         #endif
         while (1); // halt
     }
 
     if (verbose) {
         #ifdef NDEF_USE_SERIAL
-        SERIAL.print(F("Found chip PN5")); SERIAL.println((versiondata >> 24) & 0xFF, HEX);
-        SERIAL.print(F("Firmware ver. ")); SERIAL.print((versiondata >> 16) & 0xFF, DEC);
-        SERIAL.print('.'); SERIAL.println((versiondata >> 8) & 0xFF, DEC);
+        PN532_SERIAL.print(F("Found chip PN5")); PN532_SERIAL.println((versiondata >> 24) & 0xFF, HEX);
+        PN532_SERIAL.print(F("Firmware ver. ")); PN532_SERIAL.print((versiondata >> 16) & 0xFF, DEC);
+        PN532_SERIAL.print('.'); PN532_SERIAL.println((versiondata >> 8) & 0xFF, DEC);
         #endif
     }
     // configure board to read RFID tags
@@ -59,7 +59,7 @@ boolean NfcAdapter::format() {
     #endif
     {
         #ifdef NDEF_USE_SERIAL
-        SERIAL.print(F("Unsupported Tag."));
+        PN532_SERIAL.print(F("Unsupported Tag."));
         #endif
         success = false;
     }
@@ -86,7 +86,7 @@ boolean NfcAdapter::clean() {
             return ultralight.clean();
         } else {
             #ifdef NDEF_USE_SERIAL
-            SERIAL.print(F("No driver for card type ")); SERIAL.println(type);
+            PN532_SERIAL.print(F("No driver for card type ")); PN532_SERIAL.println(type);
             #endif
             return false;
         }
@@ -114,7 +114,7 @@ NfcTag NfcAdapter::read() {
             return ultralight.read(uid, uidLength);
         } else if (type == TAG_TYPE_UNKNOWN) {
             #ifdef NDEF_USE_SERIAL
-            SERIAL.print(F("Can not determine tag type"));
+            PN532_SERIAL.print(F("Can not determine tag type"));
             #endif
             return NfcTag(uid, uidLength);
         } else {
@@ -146,12 +146,12 @@ boolean NfcAdapter::write(NdefMessage& ndefMessage) {
             success = mifareUltralight.write(ndefMessage, uid, uidLength);
         } else if (type == TAG_TYPE_UNKNOWN) {
             #ifdef NDEF_USE_SERIAL
-            SERIAL.print(F("Can not determine tag type"));
+            PN532_SERIAL.print(F("Can not determine tag type"));
             #endif
             success = false;
         } else {
             #ifdef NDEF_USE_SERIAL
-            SERIAL.print(F("No driver for card type ")); SERIAL.println(type);
+            PN532_SERIAL.print(F("No driver for card type ")); PN532_SERIAL.println(type);
             #endif
             success = false;
         }

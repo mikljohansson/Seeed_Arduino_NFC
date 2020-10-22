@@ -136,7 +136,7 @@ boolean NdefMessage::addRecord(NdefRecord& record) {
         return true;
     } else {
         #ifdef NDEF_USE_SERIAL
-        SERIAL.println(F("WARNING: Too many records. Increase MAX_NDEF_RECORDS."));
+        PN532_SERIAL.println(F("WARNING: Too many records. Increase MAX_NDEF_RECORDS."));
         #endif
         return false;
     }
@@ -232,9 +232,9 @@ NdefRecord NdefMessage::operator[](int index) {
 
 #ifdef NDEF_USE_SERIAL
 void NdefMessage::print() {
-    SERIAL.print(F("\nNDEF Message ")); SERIAL.print(_recordCount); SERIAL.print(F(" record"));
-    _recordCount == 1 ? SERIAL.print(", ") : SERIAL.print("s, ");
-    SERIAL.print(getEncodedSize()); SERIAL.println(F(" bytes"));
+    PN532_SERIAL.print(F("\nNDEF Message ")); PN532_SERIAL.print(_recordCount); PN532_SERIAL.print(F(" record"));
+    _recordCount == 1 ? PN532_SERIAL.print(", ") : PN532_SERIAL.print("s, ");
+    PN532_SERIAL.print(getEncodedSize()); PN532_SERIAL.println(F(" bytes"));
 
     for (unsigned int i = 0; i < _recordCount; i++) {
         _records[i].print();

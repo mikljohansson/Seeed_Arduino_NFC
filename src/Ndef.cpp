@@ -5,17 +5,17 @@
 void PrintHex(const byte* data, const long numBytes) {
     int32_t szPos;
     for (szPos = 0; szPos < numBytes; szPos++) {
-        SERIAL.print("0x");
+        PN532_SERIAL.print("0x");
         // Append leading 0 for small values
         if (data[szPos] <= 0xF) {
-            SERIAL.print("0");
+            PN532_SERIAL.print("0");
         }
-        SERIAL.print(data[szPos] & 0xff, HEX);
+        PN532_SERIAL.print(data[szPos] & 0xff, HEX);
         if ((numBytes > 1) && (szPos != numBytes - 1)) {
-            SERIAL.print(" ");
+            PN532_SERIAL.print(" ");
         }
     }
-    SERIAL.println("");
+    PN532_SERIAL.println("");
 }
 
 // Borrowed from Adafruit_NFCShield_I2C
@@ -24,22 +24,22 @@ void PrintHexChar(const byte* data, const long numBytes) {
     for (szPos = 0; szPos < numBytes; szPos++) {
         // Append leading 0 for small values
         if (data[szPos] <= 0xF) {
-            SERIAL.print("0");
+            PN532_SERIAL.print("0");
         }
-        SERIAL.print(data[szPos], HEX);
+        PN532_SERIAL.print(data[szPos], HEX);
         if ((numBytes > 1) && (szPos != numBytes - 1)) {
-            SERIAL.print(" ");
+            PN532_SERIAL.print(" ");
         }
     }
-    SERIAL.print("  ");
+    PN532_SERIAL.print("  ");
     for (szPos = 0; szPos < numBytes; szPos++) {
         if (data[szPos] <= 0x1F) {
-            SERIAL.print(".");
+            PN532_SERIAL.print(".");
         } else {
-            SERIAL.print((char)data[szPos]);
+            PN532_SERIAL.print((char)data[szPos]);
         }
     }
-    SERIAL.println("");
+    PN532_SERIAL.println("");
 }
 
 // Note if buffer % blockSize != 0, last block will not be written

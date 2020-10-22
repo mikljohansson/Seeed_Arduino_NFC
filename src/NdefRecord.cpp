@@ -262,49 +262,49 @@ void NdefRecord::setId(const byte* id, const unsigned int numBytes) {
 #ifdef NDEF_USE_SERIAL
 
 void NdefRecord::print() {
-    SERIAL.println(F("  NDEF Record"));
-    SERIAL.print(F("    TNF 0x")); SERIAL.print(_tnf, HEX); SERIAL.print(" ");
+    PN532_SERIAL.println(F("  NDEF Record"));
+    PN532_SERIAL.print(F("    TNF 0x")); PN532_SERIAL.print(_tnf, HEX); PN532_SERIAL.print(" ");
     switch (_tnf) {
         case TNF_EMPTY:
-            SERIAL.println(F("Empty"));
+            PN532_SERIAL.println(F("Empty"));
             break;
         case TNF_WELL_KNOWN:
-            SERIAL.println(F("Well Known"));
+            PN532_SERIAL.println(F("Well Known"));
             break;
         case TNF_MIME_MEDIA:
-            SERIAL.println(F("Mime Media"));
+            PN532_SERIAL.println(F("Mime Media"));
             break;
         case TNF_ABSOLUTE_URI:
-            SERIAL.println(F("Absolute URI"));
+            PN532_SERIAL.println(F("Absolute URI"));
             break;
         case TNF_EXTERNAL_TYPE:
-            SERIAL.println(F("External"));
+            PN532_SERIAL.println(F("External"));
             break;
         case TNF_UNKNOWN:
-            SERIAL.println(F("Unknown"));
+            PN532_SERIAL.println(F("Unknown"));
             break;
         case TNF_UNCHANGED:
-            SERIAL.println(F("Unchanged"));
+            PN532_SERIAL.println(F("Unchanged"));
             break;
         case TNF_RESERVED:
-            SERIAL.println(F("Reserved"));
+            PN532_SERIAL.println(F("Reserved"));
             break;
         default:
-            SERIAL.println();
+            PN532_SERIAL.println();
     }
-    SERIAL.print(F("    Type Length 0x")); SERIAL.print(_typeLength, HEX); SERIAL.print(" "); SERIAL.println(_typeLength);
-    SERIAL.print(F("    Payload Length 0x")); SERIAL.print(_payloadLength, HEX);; SERIAL.print(" ");
-    SERIAL.println(_payloadLength);
+    PN532_SERIAL.print(F("    Type Length 0x")); PN532_SERIAL.print(_typeLength, HEX); PN532_SERIAL.print(" "); PN532_SERIAL.println(_typeLength);
+    PN532_SERIAL.print(F("    Payload Length 0x")); PN532_SERIAL.print(_payloadLength, HEX);; PN532_SERIAL.print(" ");
+    PN532_SERIAL.println(_payloadLength);
     if (_idLength) {
-        SERIAL.print(F("    Id Length 0x")); SERIAL.println(_idLength, HEX);
+        PN532_SERIAL.print(F("    Id Length 0x")); PN532_SERIAL.println(_idLength, HEX);
     }
-    SERIAL.print(F("    Type ")); PrintHexChar(_type, _typeLength);
+    PN532_SERIAL.print(F("    Type ")); PrintHexChar(_type, _typeLength);
     // TODO chunk large payloads so this is readable
-    SERIAL.print(F("    Payload ")); PrintHexChar(_payload, _payloadLength);
+    PN532_SERIAL.print(F("    Payload ")); PrintHexChar(_payload, _payloadLength);
     if (_idLength) {
-        SERIAL.print(F("    Id ")); PrintHexChar(_id, _idLength);
+        PN532_SERIAL.print(F("    Id ")); PrintHexChar(_id, _idLength);
     }
-    SERIAL.print(F("    Record is ")); SERIAL.print(getEncodedSize()); SERIAL.println(" bytes");
+    PN532_SERIAL.print(F("    Record is ")); PN532_SERIAL.print(getEncodedSize()); PN532_SERIAL.println(" bytes");
 
 }
 #endif
